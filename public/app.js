@@ -1,5 +1,6 @@
 var nconf = require('nconf');
 var trello = require('../lib/trello');
+var toggl = require('../lib/toggl');
 
 nconf.file({ file: '../config.json' });
 
@@ -8,8 +9,16 @@ trello.init({
     token: nconf.get('trello:token')
 });
 
-
-trello.getBoard('od4NxwzO').then(function(board){
-    console.log(board);
+toggl.init({
+    token: nconf.get('toggl:token')
 });
+
+
+//trello.getBoard('od4NxwzO').then(function(board){
+//    console.log(board);
+//});
+
+toggl.togglRequest('me').then(function(resp){
+    console.log(resp);
+})
 
