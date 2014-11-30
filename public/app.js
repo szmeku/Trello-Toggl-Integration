@@ -18,7 +18,15 @@ toggl.init({
 //    console.log(board);
 //});
 
-toggl.togglRequest('me').then(function(resp){
-    console.log(resp);
-})
 
+//toggl.getEntriesFromLastNDays(1)
+
+//sto.getCurrentEntry()
+
+//toggl.getEntriesByName()
+
+//    .then(function (resp) {
+//    console.log(resp);
+//});
+
+toggl.stopEntryByName('janusz');
