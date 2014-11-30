@@ -35,27 +35,37 @@ app.post('/trelloCallback', function(req, res) {
             model = req.body.model,
             card = action.data.card;
 
-        function isMyCardOnDoingList(action) {
-            return myUserId === action.idMemberCreator && doingListId === model.id;
+        function isMyAction(action){
+            return myUserId === action.idMemberCreator;
         }
 
-        if(isMyCardOnDoingList(action) && card.idList === doingListId){
+        function isActionOnDoingList(action){
+            return doingListId === model.id;
+        }
+
+        function isCardEnter(card){
+            return card.idList && card.idList === doingListId;
+        }
+
+        function isCardLeave(card){
+            return card.idList && card.idList !== doingListId
+        }
+
+
+        if(isCardEnter(card) && isMyAction(action) && isActionOnDoingList(action)){
 
             res.send('start entry: ' + card.name);
             toggl.startEntry(card.name);
 
-        }else if(isMyCardOnDoingList(action) && card.idList !== doingListId){
+        }else if(isCardLeave(card) && isMyAction(action) && isActionOnDoingList(action)){
 
             res.send('stop entry: ' + card.name);
             toggl.stopEntryByName(card.name);
 
         }else{
-            console.log('isMyCardOnDoingList', isMyCardOnDoingList(action));
             console.log('myUserId', myUserId, 'action.create', action.idMemberCreator);
-            console.log(isMyCardOnDoingList(action));
-            res.send('nie dotyczy tych kart');
+            res.send('nie moja nie na tej liscie albo inna akcja');
         }
-
 
     }catch(ex){
         console.log('wystapil error: ' + ex);
