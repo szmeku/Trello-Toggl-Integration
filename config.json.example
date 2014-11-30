@@ -1,6 +1,12 @@
+
+## Fill it with your data and rename to config.json
+
+# all fields are required
+
 {
     "trello":{
         "app_key": "",
+        "comment": "",
         "token": "",
 
         "myUserId": "",
