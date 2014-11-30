@@ -20,8 +20,10 @@ trello.init({
 });
 
 toggl.init({
-    token: nconf.get('toggl:token')
+    token: nconf.get('toggl:token'),
+    workspaceId: nconf.get('toggl:workspaceId')
 });
+
 
 app.head('/trelloCallback', function(req,res){
     res.send('ok');
@@ -55,12 +57,13 @@ app.post('/trelloCallback', function(req, res) {
         if(isCardEnter(card) && isMyAction(action) && isActionOnDoingList(action)){
 
             res.send('start entry: ' + card.name);
-            toggl.startEntry(card.name);
+            toggl.createEntryFromTrelloTaskName(card.name);
 
         }else if(isCardLeave(card) && isMyAction(action) && isActionOnDoingList(action)){
 
             res.send('stop entry: ' + card.name);
-            toggl.stopEntryByName(card.name);
+            toggl.stopEntryByTrelloTaskName(card.name);
+
 
         }else{
             console.log('myUserId', myUserId, 'action.create', action.idMemberCreator);
@@ -73,6 +76,7 @@ app.post('/trelloCallback', function(req, res) {
     }
 
 });
+
 
 app.listen(3030);
 console.log('Magic happens on port ' + port);
