@@ -1,0 +1,14 @@
+{
+    "trello":{
+        "app_key": "",
+        "token": "",
+
+        "myUserId": "",
+        "doingListId": ""
+
+    },
+    "toggl": {
+        "token": "",
+        "workspaceId": 
+    }
+}
